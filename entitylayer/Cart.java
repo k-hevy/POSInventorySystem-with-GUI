@@ -1,35 +1,34 @@
 package entitylayer;
 
-import datalayer.CustomLinkedList;
-import datalayer.Node;
+import datalayer.CustomLinkedLists.CartItemLinkedList;
+import datalayer.CustomLinkedLists.CartItemNode;
 
 public class Cart {
 
     String cartID;
-    CustomLinkedList<CartItem> cartItems;
+    CartItemLinkedList cartItems;
 
     public Cart(String cartID) {
         this.cartID = cartID;
-        this.cartItems = new CustomLinkedList<>();
+        this.cartItems = new CartItemLinkedList();
     }
 
     public double calculateTotal() {
         double total = 0.0;
-        Node<CartItem> current = cartItems.getHead();
+        CartItemNode current = cartItems.getTopNode();
         while (current != null) {
-            // total += cartItem.data.getQuantity() * cartItem.data.getProduct().getProductPrice(); or 
-            total += current.data.getCartItemTotal();
+            total += current.cartItem.getCartItemTotal();
             current = current.next;
         }
         return total;
     } // temporary place for now, might be moved to CustomerService
 
     public void showItems() {
-        Node<CartItem> current = cartItems.getHead();
+        CartItemNode current = cartItems.getTopNode();
         String temp = "";
         int i = 0;
         while(current !=null) {
-            temp += "[" + i++ + "] " + current.data.getQuantity() + " " + current.data.getProduct().getProductName() + " x " + current.data.getProduct().getProductPrice() +  "\n";
+            temp += "[" + i++ + "] " + current.cartItem.getQuantity() + " " + current.cartItem.getProduct().getProductName() + " x " + current.cartItem.getProduct().getProductPrice() +  "\n";
             current = current.next;
         }
 
@@ -42,16 +41,20 @@ public class Cart {
 
     } // also migt be temporary
 
-    public void addProduct(CartItem cartItem) {
-        cartItems.insertData(cartItem);
+    public void addItem(CartItem cartItem) {
+        cartItems.push(cartItem);
     } // temporary place for now, will be movbe to customer class later
 
-    public void removeProduct(int index) {
-        cartItems.deletAtIndex(index);
+    public void removeItem(String targetId) {
+        cartItems.remove(targetId);
     } // list down all products then user will choose wich one ot delete?
+
+    public void popItem() {
+        cartItems.pop();
+    }
 
     // Getters 
     public String getCartID() { return cartID; }
-    public CustomLinkedList<CartItem> getItems() { return cartItems; }
+    public CartItemLinkedList getItems() { return cartItems;}
     
-}
+} // As of now parang wrapper methods lang mga to IDK if magstastay pa mga to here
