@@ -1,21 +1,16 @@
 package entitylayer;
 import java.time.Instant;
 
-public class Transaction implements datalayer.Identifiable { 
+public class Sale  { 
 
-    private String transactionID;
+    private String saleId;
     private double totalAmount;
     private Cart cart;
     private Instant dateStamp;
     private String customerID;
 
-    @Override
-    public String getId() {
-        return transactionID;
-    }
-
-    public Transaction(String transactionID, double totalAmount, Cart cart, Instant dateStamp, String customerID) {
-        this.transactionID = transactionID;
+    public Sale(String saleId, double totalAmount, Cart cart, Instant dateStamp, String customerID) {
+        this.saleId = saleId;
         this.totalAmount = totalAmount;
         this.cart = cart;
         this.dateStamp = dateStamp;
@@ -23,7 +18,7 @@ public class Transaction implements datalayer.Identifiable {
     }
 
     //getters
-    public String getTransactionID() { return transactionID; }
+    public String getSaleId() { return saleId; }
     public double getTotalAmount() { return totalAmount; }
     public Cart getCart() { return cart; }
     public Instant getDateStamp() { return dateStamp; }

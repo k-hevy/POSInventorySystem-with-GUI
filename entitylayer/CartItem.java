@@ -1,6 +1,6 @@
 package entitylayer;
 
-public class CartItem implements datalayer.Identifiable {
+public class CartItem {
 
     Product product;
     int quantity;
@@ -10,14 +10,13 @@ public class CartItem implements datalayer.Identifiable {
         this.quantity = quantity;
     }
 
-    // implements identifiable interface   
-    @Override
-    public String getId() {
-        return product.getProductID();
-    }
-
     public double getCartItemTotal() {
         return product.getProductPrice() * quantity;
+    }
+
+    @Override 
+    public String toString() {
+        return product.getProductName() + " x " + quantity;
     }
 
     //getters

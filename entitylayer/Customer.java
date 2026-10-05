@@ -12,5 +12,21 @@ public class Customer extends User {
     public Cart getCart() {
         return cart;
     }
+
+    //Void addItem()
+    // Void removeItem()
+    // void checkout()
+    // Void viewReceipt()
+    // void generateReceipt()
+    // Void viewMyReceipts
+    // Void viewCart()
+    // void clearCart()
+    // Double
+    // updateItemQuantity()
+    // boolean isCartEmpty()
+    // Void searchItems()
+    // Void searchReceipts()
+    // void calculateTotaBilll()
+
     
 }

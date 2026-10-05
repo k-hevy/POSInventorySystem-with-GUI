@@ -1,6 +1,6 @@
 package entitylayer;
 
-public class Product implements datalayer.Identifiable {
+public class Product {
 
     private String productID;
     private String productName;
@@ -22,10 +22,6 @@ public class Product implements datalayer.Identifiable {
         this.reOrderPoint = reOrderPoint;
         this.category = category;
     }
-
-    // identifiable methods
-    @Override
-    public String getId() { return productID; }
 
     //getters
     public String getProductID() { return productID; }
