@@ -59,7 +59,7 @@ public class SaleLinkedList {
         String temp = "";
         SaleNode current = top;
         while (current != null) {
-            temp += current.sale.getSaleId();
+            temp += current.sale.getSaleId() + "\n";
             current = current.next;
         }
 
@@ -69,9 +69,9 @@ public class SaleLinkedList {
             return "No Sales Found";
         }
 
-    }
+    } // btw this returns string cuz this shoudlnt print
 
-    public Sale Search(String targetId) { 
+    public Sale search(String targetId) { 
         SaleNode current = top;
         while (current != null) {
             if (current.sale.getSaleId().equals(targetId)) {
@@ -113,5 +113,29 @@ public class SaleLinkedList {
 
 
     } // Node1 - node2 - target - Node4 - Node5 
+
+    public boolean removeAtIndex(int index) {
+
+        if (index < 0 || index >= size || isEmpty()) {
+            return false;
+        }
+
+
+        if (index == 0) {
+            top = top.next;
+        } else {
+            SaleNode current = top;
+            SaleNode target;
+            for (int i = 0; i < index -1; i++) {
+                current = current.next;
+            }
+            target = current.next;
+            current.next =target.next;
+        }
+
+        size--;
+        return true;       
+
+    } // starts at zero index based 
 
 } // A linkedlist that stores Products

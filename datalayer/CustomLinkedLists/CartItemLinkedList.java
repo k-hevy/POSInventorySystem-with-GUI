@@ -59,7 +59,7 @@ public class CartItemLinkedList {
         String temp = "";
         CartItemNode current = top;
         while (current != null) {
-            temp += current.cartItem.toString();
+            temp += current.cartItem.toString() + "\n";
             current = current.next;
         }
 
@@ -69,9 +69,9 @@ public class CartItemLinkedList {
             return "No Items Found";
         }
 
-    }
+    } // btw this returns string cuz this shoudlnt print
 
-    public CartItem Search(String targetId) { 
+    public CartItem search(String targetId) { 
         CartItemNode current = top;
         while (current != null) {
             if (current.cartItem.getProduct().getProductID().equals(targetId)) {
@@ -113,5 +113,28 @@ public class CartItemLinkedList {
 
 
     } // Node1 - node2 - target - Node4 - Node5 
+
+    public boolean removeAtIndex(int index) {
+
+        if (index < 0 || index >= size || isEmpty()) {
+            return false;
+        }
+
+        if (index == 0) {
+            top = top.next;
+        } else {
+            CartItemNode current = top;
+            CartItemNode target;
+            for (int i = 0; i < index -1; i++) {
+                current = current.next;
+            }
+            target = current.next;
+            current.next = target.next;
+        }
+
+        size--;
+        return true;       
+
+    } // starts at zero index based 
 
 } // A linkedlist that stores Products

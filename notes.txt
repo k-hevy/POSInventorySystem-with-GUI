@@ -25,6 +25,11 @@ NEEDS:
 - BTW UP ko lang if necessary ba talaga yung CartItem class? wrapper class kasi siya eh so idk lang if needed talaga.
 - Contemplating pa if need productdescription
 
+09 - 07 - 26 - KEAN
+- Added a removedATIndex (unsure if makekeep since Stack Linkedlist Implementation nga but sometimes need mag delete ng record eh)
+- Started AccountRepsoitory, ProductCatalog, and SalesRepository classes
+- Tested AccountRepsoitory, ProductCatalog, and SalesRepository is they are proeprly working
+
 
 
 

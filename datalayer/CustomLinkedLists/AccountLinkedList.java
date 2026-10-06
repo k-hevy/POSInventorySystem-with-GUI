@@ -59,7 +59,7 @@ public class AccountLinkedList {
         String temp = "";
         AccountNode current = top;
         while (current != null) {
-            temp += current.account.getUserID();
+            temp += current.account.getUserID() + "\n";
             current = current.next;
         }
 
@@ -69,9 +69,9 @@ public class AccountLinkedList {
             return "No Accounts Found";
         }
 
-    }
+    } // btw this returns string cuz this shoudlnt print
 
-    public User Search(String targetId) { 
+    public User search(String targetId) { 
         AccountNode current = top;
         while (current != null) {
             if (current.account.getUserID().equals(targetId)) {
@@ -113,5 +113,28 @@ public class AccountLinkedList {
 
 
     } // Node1 - node2 - target - Node4 - Node5 
+
+    public boolean removeAtIndex(int index) {
+
+        if (index < 0 || index >= size || isEmpty()) {
+            return false;
+        }
+
+        if (index == 0) {
+            top = top.next;
+        } else {
+            AccountNode current = top;
+            AccountNode target;
+            for (int i = 0; i < index -1; i++) {
+                current = current.next;
+            }
+            target = current.next;
+            current.next = target.next;
+        }
+
+        size--;
+        return true;       
+
+    } // starts at zero index based 
 
 } // A linkedlist that stores Accounts

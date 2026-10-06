@@ -59,7 +59,7 @@ public class ProductLinkedList {
         String temp = "";
         ProductNode current = top;
         while (current != null) {
-            temp += current.product.getProductName();
+            temp += current.product.getProductName() + "\n";
             current = current.next;
         }
 
@@ -69,9 +69,9 @@ public class ProductLinkedList {
             return "No Products Found";
         }
 
-    }
+    } // btw this returns string cuz this shoudlnt print
 
-    public Product Search(String targetId) { 
+    public Product search(String targetId) { 
         ProductNode current = top;
         while (current != null) {
             if (current.product.getProductID().equals(targetId)) {
@@ -113,5 +113,29 @@ public class ProductLinkedList {
 
 
     } // Node1 - node2 - target - Node4 - Node5 
+
+    public boolean removeAtIndex(int index) {
+
+        if (index < 0 || index >= size || isEmpty()) {
+            return false;
+        }
+
+
+        if (index == 0) {
+            top = top.next;
+        } else {
+            ProductNode current = top;
+            ProductNode target;
+            for (int i = 0; i < index -1; i++) {
+                current = current.next;
+            }
+            target = current.next;
+            current.next =target.next;
+        }
+
+        size--;
+        return true;       
+
+    } // starts at zero index based 
 
 } // A linkedlist that stores Products
