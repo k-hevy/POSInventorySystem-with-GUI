@@ -22,6 +22,7 @@ public class Cart {
         }
         return total;
     } // temporary place for now, might be moved to CustomerService
+    // dko alam pano alisin to dto kaya cinall ko nlng sa CustomerService
 
     public void showItems() {
         CartItemNode current = cartItems.getTopNode();

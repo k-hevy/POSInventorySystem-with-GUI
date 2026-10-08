@@ -1,59 +1,88 @@
 package applicationlayer;
-import datalayer.AccountRepository;
+
 import datalayer.ProductCatalog;
 import datalayer.SaleRepository;
-import entitylayer.CartItem;
+import datalayer.CustomLinkedLists.ProductLinkedList;
+import datalayer.CustomLinkedLists.SaleLinkedList;
 import entitylayer.Customer;
 import entitylayer.Product;
-import entitylayer.Sale;
-import entitylayer.User;
 
 public class POSInventorySystem {
 
-     // A customer will have a Cart, a cart contains a list of CartItems, a cartItem contains a prduct and quantity
-    static User user;
-    static SaleRepository sales;
-    static ProductCatalog products;
-    static AccountRepository accounts;
-    // static Scanner input;
-    // static Console console;
+    static InventoryService inventoryService;
+    static CustomerService customerService;
+    static ManagerService managerService;
 
     public static void main(String[] args) {
 
-        sales = new SaleRepository();
-        products = new ProductCatalog();
-        accounts = new AccountRepository();
-        // input = new Scanner(System.in);
-        //Initialize the repositories and catalog
+        // Testing services
+        SaleRepository saleRepository = new SaleRepository();
+        ProductCatalog productCatalog = new ProductCatalog();
 
-        Customer customer1 = new Customer("001", "Carlie-Kirk", "1235"); // create a customer
-        accounts.addUser(customer1);
+        inventoryService = new InventoryService(productCatalog);
+        customerService = new CustomerService(inventoryService, saleRepository);
+        managerService = new ManagerService(inventoryService, saleRepository);
 
-        System.out.println(accounts.getUsers().display()); // working
+        System.out.println("=== 1. INVENTORY SERVICE TESTS ===");
+        // [1] Create
+        inventoryService.createProduct(new Product("P001", "Apple", "Fresh red", 10, 100.0, true, 5, "Fruits"));
+        inventoryService.createProduct(new Product("P002", "Banana", "Yellow", 2, 50.0, true, 5, "Fruits")); // Low stock
+        
+        // [6] View Inventory
+        System.out.println("Inventory Catalog: " + (inventoryService.viewInventory().getTopNode() != null ? "PASSED" : "FAILED"));
 
-        products.addProduct(new Product("P001", "Apple", "red-apples", 10, 100.0, true, 10, "Fruits"));
-        products.addProduct(new Product("P002", "Banana", "red-apples", 10, 90.0, true, 10, "Fruits"));
-        products.addProduct(new Product("P004", "Carrots", "red-apples", 10, 1000.0, true, 10, "Fruits"));
-        products.addProduct(new Product("P006", "Dog", "red-apples", 10, 10.0, true, 10, "Fruits"));
-        products.addProduct(new Product("P008", "Galvanied Steel plates", "red-apples", 10, 60.0, true, 10, "Fruits"));
-        products.addProduct(new Product("P004", "Galvanied Steel plates", "red-apples", 10, 60.0, true, 10, "Fruits"));
+        // [3] Search
+        System.out.println("Search 'Apple': " + (inventoryService.searchProduct("Apple").getTopNode() != null ? "PASSED" : "FAILED"));
 
-        System.out.println(products.getProducts().display()); // working
+        // [4] Purchase/Restock
+        inventoryService.purchaseProductStock("P001", 10);
+        System.out.println("Restock P001 (New Stock 20): " + inventoryService.getProduct("P001").getProductStock());
 
-        customer1.getCart().addItem(new CartItem(products.getProduct("P001"), 3));
-        customer1.getCart().addItem(new CartItem(products.getProduct("P002"), 3));
-        customer1.getCart().addItem(new CartItem(products.getProduct("P006"), 3));
-        customer1.getCart().addItem(new CartItem(products.getProduct("P004"), 3));
-        customer1.getCart().addItem(new CartItem(products.getProduct("P002"), 3));
+        // [5] Update Details
+        inventoryService.updateProduct("P001", "Red Apple", "Fresh", 105.0);
+        System.out.println("Update P001 Name: " + inventoryService.getProduct("P001").getProductName());
 
-        customer1.getCart().showItems(); // working
+        // [7] Update Threshold & [9] Check Low Stock
+        inventoryService.updateStockThreshold("P002", 3);
+        System.out.println("Low Stock List Empty?: " + (inventoryService.checkLowStockThresholds().getTopNode() == null));
 
-        sales.addSale(new Sale("101", 101, null, null, null));
-        sales.addSale(new Sale("102", 101, null, null, null));
-        sales.addSale(new Sale("103", 101, null, null, null));
-        sales.addSale(new Sale("104", 101, null, null, null));
 
-        System.out.println(sales.getSales().display()); // working
+        System.out.println("\n=== 2. CUSTOMER SERVICE TESTS ===");
+        Customer customer = new Customer("C001", "Juan Dela Cruz", "");
 
+        // [1] Add to Cart & [5] View Cart
+        customerService.addItemToCart(customer, "P001", 2);
+        customerService.addItemToCart(customer, "P002", 1);
+        System.out.println("Cart Populated: " + (customer.getCart().getItems().getTopNode() != null));
+
+        // [7] Update Item Quantity
+        customerService.updateCartItemQuantity(customer, "P001", 3);
+
+        // [3] Checkout
+        System.out.println("Checkout Result: " + (customerService.checkout(customer, "SALE-001") != null ? "SUCCESS" : "FAILED"));
+
+        // [6] Clear Cart (Verified post-checkout)
+        System.out.println("Cart Cleared Post-Checkout: " + (customer.getCart().getItems().getTopNode() == null));
+
+        // [4] View Receipts
+        System.out.println();
+        System.out.println(customerService.viewReceipts());
+
+        // [8] Search Catalogue & [9] Search Receipt by Date
+        System.out.println("Search Catalogue via Customer: " + (customerService.searchProduct("Banana").getTopNode() != null));
+        
+        System.out.println("\n=== 3. MANAGER SERVICE TESTS ===");
+        // [1] View Sales
+        System.out.println("Manager View Sales: " + (managerService.viewSales().getTopNode() != null ? "PASSED" : "FAILED"));
+
+        // [2] Generate Sales Report
+        SaleLinkedList reportSales = managerService.generateCategorySalesReport();
+        ProductLinkedList reportLowStock = managerService.generateLowStockReport();
+
+        System.out.println("Sales Report - Sales Data: " + (reportSales.getTopNode() != null ? "PASSED" : "FAILED"));
+        System.out.println("Sales Report - Low Stock Data: " + (reportLowStock.getTopNode() != null ? "PASSED" : "FAILED"));
+
+
+        System.out.println("Remove P002: " + inventoryService.removeProduct("P002"));
     }
 }
