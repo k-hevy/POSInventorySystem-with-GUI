@@ -1,7 +1,7 @@
 package applicationlayer;
 
-import datalayer.ProductCatalog;
 import datalayer.CustomLinkedLists.ProductLinkedList;
+import datalayer.ProductCatalog;
 import entitylayer.Product;
 
 public class InventoryService {
@@ -29,7 +29,7 @@ public class InventoryService {
     public ProductLinkedList searchProduct(String query) {
         ProductLinkedList searchResults = new ProductLinkedList();
         if (query == null || query.trim().isEmpty()) {
-            return searchResults;
+            return searchResults; // returns null
         }
 
         String searchQuery = query.trim().toLowerCase();
@@ -74,7 +74,7 @@ public class InventoryService {
     }
 
     // View Inventory
-    public ProductLinkedList viewInventory() {
+    public ProductLinkedList getInventory() {
         return productCatalog.getProducts();
     }
 
@@ -90,14 +90,12 @@ public class InventoryService {
     // Check Stock Availability
     public String checkStockAvailability(String productId) {
         Product product = productCatalog.getProduct(productId);
-        if (product == null) {
-            return "NOT_FOUND";
-        }
+        if (product == null) { return "NOT_FOUND"; }
         return product.isAvailable() ? "AVAILABLE" : "UNAVAILABLE";
     }
 
     // Check Stock Thresholds (Low Stock Products)
-    public ProductLinkedList checkLowStockThresholds() {
+    public ProductLinkedList getLowStockThresholds() {
         ProductLinkedList lowStockList = new ProductLinkedList();
         datalayer.CustomLinkedLists.ProductNode current = productCatalog.getProducts().getTopNode();
 
@@ -116,4 +114,5 @@ public class InventoryService {
     public Product getProduct(String productId) {
         return productCatalog.getProduct(productId);
     }
+
 }
