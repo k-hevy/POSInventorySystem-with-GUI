@@ -21,6 +21,6 @@ public class SaleRepository {
 
     public SaleLinkedList getSales() {
         return sales;
-    } // must return a copy or maybe wag na?
+    } 
 
 }
