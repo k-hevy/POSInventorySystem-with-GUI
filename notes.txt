@@ -1,35 +1,16 @@
-09 - 05 - 26 - KEAN
-- Created a Generic CustomLinkedList that takes a Type (T) that implements identifiable (for product ids) and a Node (T)
-- user. Customer., Manager
-- Product
-- Cart
-- Cart Item
-- Transaction
-
-NEEDS:
-
-- Different storages (for accounts, products, and accounts to be put in main)
-- Different UIs
-
-09 - 06 - 26 - KEAN
-- Renamed somes classes and attributes
-- Moved Service Classes to their respective entities
-- Added toString methods for CartItem
-- Redid CustomLinkedList 
-    - Account, CartItem, Product, and Sale has their own respective Node and CustomLinkedList Implementation
-    - Btw CartItem doesnt have an ID so its differently implemented from the other three.
-    - Metods: Constructors, push(data), data pop(), Data peek(), void isEmpty(), void display(), void Search(), Int getSize(), Void remove (id), data search(id), Node getTopNode(), data getTopdata()
-    - Other Unimplemented Methods na baka need pa implement: boolean deleteAtIndex(), insertAtIndex() // ps i removed muna yung DeleteAtIndex so deletion is only possible by remove(String  id) prolly iaadd din siguro yung deleteAtIndex
-    - Note remember to change other lists whenever you change something. and also yung ibang list di man masyado nagagmit eh like User
-
-- BTW UP ko lang if necessary ba talaga yung CartItem class? wrapper class kasi siya eh so idk lang if needed talaga.
-- Contemplating pa if need productdescription
-
-09 - 07 - 26 - KEAN
-- Added a removedATIndex (unsure if makekeep since Stack Linkedlist Implementation nga but sometimes need mag delete ng record eh)
-- Started AccountRepsoitory, ProductCatalog, and SalesRepository classes
-- Tested AccountRepsoitory, ProductCatalog, and SalesRepository is they are proeprly working
-
-
-
-
+src/
+└── presentation/
+    ├── MainFrame.java                 (The core window)
+    └── view/
+        ├── auth/
+        │   └── LoginPanel.java
+        ├── checkout/
+        │   ├── CheckoutWorkspacePanel.java
+        │   ├── CartTablePanel.java
+        │   └── TransactionSummaryPanel.java
+        ├── inventory/
+        │   ├── InventoryGridPanel.java
+        │   └── ProductFormPanel.java
+        └── shared/
+            ├── NavigationSidebarPanel.java
+            └── UserHeaderPanel.java
